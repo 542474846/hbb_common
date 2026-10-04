@@ -117,21 +117,23 @@ const CHARS: &[char] = &[
 // Compile-time override for private deployments: set RENDEZVOUS_SERVER, RELAY_SERVER,
 // API_SERVER and RS_PUB_KEY in the build environment to bake in a self-hosted server
 // without committing the addresses. Empty or unset values keep the upstream defaults.
+// String literal patterns are not allowed in const matches (E0015), so empty values
+// are resolved at the use sites / in the workflow instead.
 pub const RENDEZVOUS_SERVERS: &[&str] = &[match option_env!("RENDEZVOUS_SERVER") {
-    Some("") | None => "rs-ny.rustdesk.com",
     Some(s) => s,
+    None => "rs-ny.rustdesk.com",
 }];
 pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
-    Some("") | None => "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=",
     Some(s) => s,
+    None => "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=",
 };
 pub const RELAY_SERVER: &str = match option_env!("RELAY_SERVER") {
-    Some("") | None => "",
     Some(s) => s,
+    None => "",
 };
 pub const API_SERVER: &str = match option_env!("API_SERVER") {
-    Some("") | None => "",
     Some(s) => s,
+    None => "",
 };
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
